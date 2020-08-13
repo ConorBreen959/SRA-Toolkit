@@ -3,31 +3,40 @@ set -e
 set -u
 set -o pipefail
 
-avalue=
-pvalue=
-gvalue=
-ovalue=
+## Open flag variables
 
-while getopts ':p?g?a:o:' OPTION; do
+avalue=
+ovalue=
+pvalue=
+svalue=
+fvalue=
+
+## Getopts set up of optional flags
+
+while getopts ':p?s?f?a:o:' OPTION; do
 	case "$OPTION" in
 		a)
 		  avalue="$OPTARG"
 		  ;;
-		p)
-		  pvalue='--split-files'
-		  ;;
-		g)
-	 	  gvalue='--gzip'
-		  ;;
 		o)
 		  ovalue="-O $OPTARG"
 		  ;;
+		p)
+		  pvalue="--split-reads"
+		  ;;
+		s)
+		  svalue="--concatenate-reads"
+		  ;;
+		f)
+		  fvalue="--force"
+		  ;;
 		?)
-		  echo "script usage: $(basename $0)
-			[-a] | Specify a single accesion ID to read
-		  	[-p] | Specifies paired-end reads and splits into two fastq files.
-		  	[-g] | Specifies whether to gzip the download.
-		  	[-o] | Provide the path to the download directory" >&2
+		  echo "Script usage: SRA-toolkit
+			[-a] | Specify a single accesion ID to read instead of an accession file
+		  	[-o] | Provide the path to the desired output directory
+		  	[-p] | Specify paired-end reads (default)
+			[-s] | Specify single-end reads
+		  	[-f] | Force overwrite of existing files" >&2
 		  exit 1
 		  ;;
 	esac
@@ -36,16 +45,35 @@ done
 
 shift "$((OPTIND -1))"
 
-if [[ -z "$avalue" ]]; then
+## Check if -a flag has been called to download single accession
+if [[ -n "$avalue" ]]; then
+
+  ## Print output folder if specified
+  if [[ -n "$ovalue" ]]; then
+  	echo "Output path $ovalue"
+  fi
+  echo "Using single accession"
+
+  ## Call singularity image to download single accession
+  singularity exec /home/conor/Documents/Software/SRA_toolkit/sra-toolkit.simg fasterq-dump $fvalue $pvalue $svalue $ovalue $avalue
+  echo "Done"
+
+else
+
+  ## Print output folder if specified
+  if [[ -n "$ovalue" ]]; then
+  	echo "Output path $ovalue"
+  fi
   echo "Reading accession file"
+
+  ## While loop to read accession file
   while IFS= read -r line
   do
     echo "Reading accession $line . . ."
-    singularity exec /home/conor/Documents/Software/SRA_toolkit/SRA_toolkit.simg fastq-dump $pvalue $gvalue $ovalue "$line"
+
+    ## Call singularity image to download each accession in the accession file
+    singularity exec /home/conor/Documents/Software/SRA_toolkit/sra-toolkit.simg fasterq-dump $fvalue $pvalue $svalue $ovalue "$line"
     echo "Done"
-  done < "$1"
-else
-  echo "Using single accession"
-  singularity exec /home/conor/Documents/Software/SRA_toolkit/SRA_toolkit.simg fastq-dump $pvalue $gvalue $ovalue $avalue
-  echo "Done"
+  done < "$1"  
+
 fi
