@@ -2,7 +2,7 @@
 
 Bits and pieces for downloading read files from the Sequence Read Archive -  https://www.ncbi.nlm.nih.gov/sra
 
-This script uses software developed by the SRA (https://trace.ncbi.nlm.nih.gov/Traces/sra/sra.cgi?view=software) contained within a Singularity container.
+This script uses software developed by the [SRA](https://trace.ncbi.nlm.nih.gov/Traces/sra/) contained within a Singularity container.
 
 The singularity recipe is provided; the user must have sudo privileges on the local machine to build the singularity image
 

@@ -1,0 +1,48 @@
+BootStrap: docker
+From: ubuntu:latest
+
+%pre
+    apt-get install -y debootstrap
+
+%post
+    apt-get update
+    apt-get install -y wget
+    apt-get install -y gzip
+    apt-get install -y bzip2
+    apt-get install -y curl
+    apt-get install -y unzip
+    apt-get install -y nano
+
+    ## g++
+    apt-get install -y build-essential
+    
+    # install anaconda
+    if [ ! -d /usr/local/anaconda ]; then
+       wget https://repo.continuum.io/miniconda/Miniconda3-4.5.4-Linux-x86_64.sh \
+       	    -O ~/anaconda.sh && \
+	    bash ~/anaconda.sh -b -p /usr/local/anaconda && \
+	    rm ~/anaconda.sh
+    fi
+
+    # set anaconda path
+    export PATH=$PATH:/usr/local/anaconda/bin
+    conda update conda
+
+    conda config --add channels bioconda
+    
+    # Let us save some space
+    conda clean --packages -y
+
+    # Python
+    conda install -y -c conda-forge python=3.7.3
+    conda install -y -c bioconda sra-tools
+    conda install -y -c bioconda/label/cf201901 sra-tools
+
+    # Let us save some space
+    conda clean --packages -y
+    conda clean --all -y
+    rm -rf /usr/local/anaconda/pkgs
+
+%environment
+    export PATH=$PATH:/usr/local/anaconda/bin
+    export LANG=C
