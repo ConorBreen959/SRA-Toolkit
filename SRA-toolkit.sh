@@ -55,7 +55,7 @@ if [[ -n "$avalue" ]]; then
   echo "Using single accession"
 
   ## Call singularity image to download single accession
-  singularity exec /home/conor/Documents/Software/SRA_toolkit/sra-toolkit.simg fasterq-dump $fvalue $pvalue $svalue $ovalue $avalue
+  singularity exec sra-toolkit.simg fasterq-dump $fvalue $pvalue $svalue $ovalue $avalue
   echo "Done"
 
 else
@@ -72,7 +72,7 @@ else
     echo "Reading accession $line . . ."
 
     ## Call singularity image to download each accession in the accession file
-    singularity exec /home/conor/Documents/Software/SRA_toolkit/sra-toolkit.simg fasterq-dump $fvalue $pvalue $svalue $ovalue "$line"
+    singularity exec sra-toolkit.simg fasterq-dump $fvalue $pvalue $svalue $ovalue "$line"
     echo "Done"
   done < "$1"  
 
