@@ -1,10 +1,10 @@
 ## SRA-Toolkit
 
-Bits and pieces for downloading read files from the Sequence Read Archive -  https://www.ncbi.nlm.nih.gov/sra
+Bits and pieces for downloading read files from the [Sequence Read Archive](https://www.ncbi.nlm.nih.gov/sra)
 
 This script uses software developed by the [SRA](https://trace.ncbi.nlm.nih.gov/Traces/sra/) contained within a Singularity container.
 
-The singularity recipe is provided; the user must have sudo privileges on the local machine to build the singularity image
+The singularity recipe is provided; the user must have root privileges on the local machine to build the singularity image.
 
 The shell script by default reads a text file containing SRA accession IDs, or alternatively a single ID can be specified on the command line. 
 
