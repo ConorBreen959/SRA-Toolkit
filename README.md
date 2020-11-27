@@ -8,6 +8,8 @@ The singularity recipe is provided; the user must have root privileges on the lo
 
 The shell script by default reads a text file containing SRA accession IDs, or alternatively a single ID can be specified on the command line. 
 
+The path to where the Singularity image has been built should be specified in the shell script before use.
+
 ### Script usage - Flags
 
 -a   |   Specify a single accession to download. The accession ID must be provided on the command line with the flag.  
