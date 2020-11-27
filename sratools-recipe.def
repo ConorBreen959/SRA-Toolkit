@@ -7,9 +7,6 @@ From: ubuntu:latest
 %post
     apt-get update
     apt-get install -y wget
-    apt-get install -y gzip
-    apt-get install -y bzip2
-    apt-get install -y curl
     apt-get install -y unzip
     apt-get install -y nano
 
@@ -34,9 +31,7 @@ From: ubuntu:latest
     conda clean --packages -y
 
     # Python
-    conda install -y -c conda-forge python=3.7.3
     conda install -y -c bioconda sra-tools
-    conda install -y -c bioconda/label/cf201901 sra-tools
 
     # Let us save some space
     conda clean --packages -y

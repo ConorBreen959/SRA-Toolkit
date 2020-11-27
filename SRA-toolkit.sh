@@ -1,4 +1,5 @@
 #! /bin/bash
+
 set -e
 set -u
 set -o pipefail
@@ -22,7 +23,7 @@ while getopts ':p?s?f?a:o:' OPTION; do
 		  ovalue="-O $OPTARG"
 		  ;;
 		p)
-		  pvalue="--split-reads"
+		  pvalue="--split-spot"
 		  ;;
 		s)
 		  svalue="--concatenate-reads"
@@ -55,7 +56,7 @@ if [[ -n "$avalue" ]]; then
   echo "Using single accession"
 
   ## Call singularity image to download single accession
-  singularity exec sra-toolkit.simg fasterq-dump $fvalue $pvalue $svalue $ovalue $avalue
+  singularity exec /path/to/sra-toolkit.simg fasterq-dump $fvalue $pvalue $svalue $ovalue $avalue
   echo "Done"
 
 else
@@ -72,7 +73,7 @@ else
     echo "Reading accession $line . . ."
 
     ## Call singularity image to download each accession in the accession file
-    singularity exec sra-toolkit.simg fasterq-dump $fvalue $pvalue $svalue $ovalue "$line"
+    singularity exec /path/to/sra-toolkit.simg fasterq-dump $fvalue $pvalue $svalue $ovalue "$line"
     echo "Done"
   done < "$1"  
 
