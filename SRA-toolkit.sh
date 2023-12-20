@@ -1,7 +1,7 @@
-#! /bin/bash
+##! /bin/bash
 
 set -e
-set -u
+#set -u
 set -o pipefail
 
 ## Open flag variables
@@ -56,7 +56,7 @@ if [[ -n "$avalue" ]]; then
   echo "Using single accession"
 
   ## Call singularity image to download single accession
-  singularity exec /path/to/sra-toolkit.simg fasterq-dump $fvalue $pvalue $svalue $ovalue $avalue
+  fasterq-dump $fvalue $pvalue $svalue $ovalue $avalue
   echo "Done"
 
 else
@@ -73,7 +73,7 @@ else
     echo "Reading accession $line . . ."
 
     ## Call singularity image to download each accession in the accession file
-    singularity exec /path/to/sra-toolkit.simg fasterq-dump $fvalue $pvalue $svalue $ovalue "$line"
+    fasterq-dump $fvalue $pvalue $svalue $ovalue "$line"
     echo "Done"
   done < "$1"  
 
